@@ -6,6 +6,6 @@ import { SuccessResponse } from '../../core/ApiResponse';
 
 export const TestApi = asyncHandler(async (_req: PublicRequest, res:any)=>{
     new SuccessResponse('Test Api',{
-        message:'hello world'
+        message:'hello world works think'
     }).send(res)
 })
