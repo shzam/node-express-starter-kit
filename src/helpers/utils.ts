@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import moment from 'moment';
-import Logger from 'core/Logger';
+import Logger from '../core/Logger';
 
 export function findIpAddress(req: Request) {
   try {

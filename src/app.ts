@@ -4,14 +4,14 @@ import cors from 'cors'
 
 // module
 import { corsUrl, environment } from './config';
-import Logger from 'core/Logger';
+import Logger from './core/Logger';
 import {
     NotFoundError,
     ApiError,
     InternalError,
     ErrorType,
-  } from 'core/ApiError';
-import routes from 'routes'
+  } from './core/ApiError';
+import routes from './routes'
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));

@@ -1,5 +1,4 @@
 import express from 'express';
-import permission from 'helper/permission';
 
 //
 import Test from "./test/test.router"
