@@ -1,7 +1,9 @@
-export default {
+const config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
-    roots: ['<rootDir>/tests'],
-    setupFiles: ['<rootDir>/tests/setup.ts'],
+    roots: ['<rootDir>/src/tests'],
+    setupFiles: ['<rootDir>/src/tests/setup.ts'],
     collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/node_modules/**']
 };
+
+export default config;
