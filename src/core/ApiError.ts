@@ -1,4 +1,6 @@
 import { Response } from 'express';
+
+// locals
 import { environment } from '../config';
 import {
     AuthFailureResponse,
