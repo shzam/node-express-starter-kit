@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
@@ -33,7 +33,7 @@ app.use((req, res, next) => next(new NotFoundError()));
 
 app.use((req, res, next) => next(new NotFoundError()));
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response) => {
     if (err instanceof ApiError) {
         ApiError.handle(err, res);
         if (err.type === ErrorType.INTERNAL)
