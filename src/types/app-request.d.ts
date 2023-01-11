@@ -4,20 +4,20 @@ import { Request } from 'express';
 // import ApiKey from '../database/model/ApiKey';
 
 declare interface PublicRequest extends Request {
-  apiKey?: ApiKey;
+    apiKey?: ApiKey;
 }
 
 declare interface RoleRequest extends PublicRequest {
-  currentRoleCodes: string[];
+    currentRoleCodes: string[];
 }
 
 declare interface ProtectedRequest extends RoleRequest {
-  user: User;
-  accessToken: string;
-  keystore: Keystore;
+    user: User;
+    accessToken: string;
+    keystore: Keystore;
 }
 
 declare interface Tokens {
-  accessToken: string;
-  refreshToken: string;
+    accessToken: string;
+    refreshToken: string;
 }

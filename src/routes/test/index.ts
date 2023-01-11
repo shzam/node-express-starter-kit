@@ -1,4 +1,4 @@
-import * as TestController from './test.controller'
-import TestRoute from './test.router'
+import * as TestController from './test.controller';
+import TestRoute from './test.router';
 
-export {TestController,TestRoute}
+export { TestController, TestRoute };

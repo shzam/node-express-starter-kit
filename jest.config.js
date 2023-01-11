@@ -3,6 +3,5 @@ export default {
     testEnvironment: 'node',
     roots: ['<rootDir>/tests'],
     setupFiles: ['<rootDir>/tests/setup.ts'],
-    collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/node_modules/**'],
-  };
-  
+    collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/node_modules/**']
+};

@@ -1,7 +1,7 @@
-import { createLogger,transports,format } from "winston";
-import fs from 'fs'
-import path from 'path'
-import DailyRotateFile from 'winston-daily-rotate-file'
+import { createLogger, transports, format } from 'winston';
+import fs from 'fs';
+import path from 'path';
+import DailyRotateFile from 'winston-daily-rotate-file';
 import { environment, logDirectory } from '../config';
 
 let dir = logDirectory;
@@ -17,7 +17,7 @@ const logLevel = environment === 'development' ? 'debug' : 'warn';
 
 const dailyRotateFile = new DailyRotateFile({
     level: logLevel,
-    
+
     filename: dir + '/%DATE%.log',
     datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
@@ -25,24 +25,23 @@ const dailyRotateFile = new DailyRotateFile({
     maxSize: '20m',
     maxFiles: '14d',
     format: format.combine(
-      format.errors({ stack: true }),
-      format.timestamp(),
-      format.json(),
-    ),
-  });
-  
-  export default createLogger({
+        format.errors({ stack: true }),
+        format.timestamp(),
+        format.json()
+    )
+});
+
+export default createLogger({
     transports: [
-      new transports.Console({
-        level: logLevel,
-        format: format.combine(
-          format.errors({ stack: true }),
-          format.prettyPrint(),
-        ),
-      }),
-      dailyRotateFile,
+        new transports.Console({
+            level: logLevel,
+            format: format.combine(
+                format.errors({ stack: true }),
+                format.prettyPrint()
+            )
+        }),
+        dailyRotateFile
     ],
     exceptionHandlers: [dailyRotateFile],
-    exitOnError: false, // do not exit on handled exceptions
-  });
-  
+    exitOnError: false // do not exit on handled exceptions
+});

@@ -1,4 +1,3 @@
-
 // import path from 'path';
 // import { readFile } from 'fs';
 // import { promisify } from 'util';
@@ -55,7 +54,7 @@
 // async function encode(payload: JwtPayload): Promise<string> {
 //   const cert = await readPrivateKey();
 //   if (!cert) throw new InternalError('Token generation failure');
-  
+
 //   return promisify(sign)({ ...payload }, cert, { algorithm: 'RS256' });
 // }
 
@@ -65,7 +64,7 @@
 // async function validate(token: string): Promise<JwtPayload> {
 //   const cert = await readPublicKey();
 //   try {
-    
+
 //     return (await promisify(verify)(token, cert)) as JwtPayload;
 //   } catch (e: any) {
 //     Logger.debug(e);
