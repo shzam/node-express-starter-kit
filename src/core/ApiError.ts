@@ -1,7 +1,5 @@
 import { Response } from 'express';
-
 // locals
-import { environment } from '../config';
 import {
     AuthFailureResponse,
     AccessTokenErrorResponse,
@@ -9,7 +7,8 @@ import {
     NotFoundResponse,
     BadRequestResponse,
     ForbiddenResponse
-} from '../core/ApiResponse';
+} from '@core/ApiResponse';
+import { environment } from '@config';
 
 export enum ErrorType {
     BAD_TOKEN = 'BadTokenError',

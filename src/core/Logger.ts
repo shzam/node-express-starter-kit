@@ -3,8 +3,7 @@ import path from 'path';
 
 import { createLogger, transports, format } from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-
-import { environment, logDirectory } from '../config';
+import { environment, logDirectory } from '@config';
 
 let dir = logDirectory;
 if (!dir) dir = path.resolve('logs');

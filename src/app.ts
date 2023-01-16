@@ -31,8 +31,6 @@ app.use('/', routes);
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(new NotFoundError()));
 
-app.use((req, res, next) => next(new NotFoundError()));
-
 app.use((err: Error, req: Request, res: Response) => {
     if (err instanceof ApiError) {
         ApiError.handle(err, res);
@@ -51,4 +49,5 @@ app.use((err: Error, req: Request, res: Response) => {
         ApiError.handle(new InternalError(), res);
     }
 });
+
 export default app;
