@@ -7,7 +7,7 @@
     "start": "npm run build && npm run serve",
     "serve": "tsc ./build/src/server.js",
     "build": "npm run clean && npm run build-ts",
-    "watch": "npx concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
+    "watch": "npx concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run start-dev\"",
     "start-dev": "nodemon -r tsconfig-paths/register src/server.ts",
     "clean": "rimraf ./build",
     "build-ts": "tsc",
