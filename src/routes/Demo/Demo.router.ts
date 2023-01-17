@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { TestApi } from './test.controller';
+import { TestApi } from './Demo.controller';
 
 const router = express.Router();
 

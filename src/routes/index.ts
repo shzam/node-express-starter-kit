@@ -1,7 +1,7 @@
 import express from 'express';
 
 //
-import { TestRoute } from './test';
+import { TestRoute } from './Demo';
 
 const router = express.Router();
 
