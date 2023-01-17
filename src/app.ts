@@ -1,17 +1,16 @@
 import express, { Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-
-// module
-import { corsUrl, environment } from './config';
-import Logger from './core/Logger';
+// modules
+import { corsUrl, environment } from '@config';
+import Logger from '@core/Logger';
 import {
     NotFoundError,
     ApiError,
     InternalError,
     ErrorType
-} from './core/ApiError';
-import routes from './routes';
+} from '@core/ApiError';
+import routes from '@routes';
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
