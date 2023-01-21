@@ -11,7 +11,9 @@ const config = {
         '@app': ['<rootDir>/src/app.ts'],
         '@routes': ['<rootDir>/src/routes/index.ts'],
         '@server': ['<rootDir>/src/server.ts'],
-        '@config': ['<rootDir>/src/config.ts']
+        '@config': ['<rootDir>/src/config.ts'],
+        '@database/(.*)': ['./src/database/$1'],
+        '@database': ['./src/database']
     },
     collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/node_modules/**']
 };
