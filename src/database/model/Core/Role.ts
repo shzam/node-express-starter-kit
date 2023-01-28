@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { BaseModel } from './base';
+import { BaseModel } from './Base';
 import {
     Permissions,
     DOCUMENT_NAME as PERMISSION_DOCUMENT_NAME

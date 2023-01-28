@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { BaseModel } from './base';
+import { BaseModel } from './Base';
 import { Role, DOCUMENT_NAME as Role_DOCUMENT_NAME } from './Role';
 
 export const DOCUMENT_NAME = 'User';

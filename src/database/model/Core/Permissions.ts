@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-import { BaseModel } from './base';
+import { BaseModel } from './Base';
 
 export const DOCUMENT_NAME = 'Permission';
 const COLLECTION_NAME = 'permissions';
