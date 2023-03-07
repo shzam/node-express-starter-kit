@@ -6,7 +6,7 @@ import { db } from '@config';
 //     db.host
 // }:${db.port}/${db.name}`;
 
-const dbURI = 'mongodb://localhost:27017/trying';
+const dbURI = 'mongodb://127.0.0.1:27017/temp';
 
 const options = {
     autoIndex: true,

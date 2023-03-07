@@ -10,7 +10,8 @@ import {
     InternalError,
     ErrorType
 } from '@core/ApiError';
-import routes from '@routes';
+import routes from '@apps/index';
+import '@database';
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -30,6 +31,7 @@ app.use('/', routes);
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(new NotFoundError()));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     if (err instanceof ApiError) {
         ApiError.handle(err, res);

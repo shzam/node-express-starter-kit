@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-import { BaseModel } from './Base';
+import { BaseModel } from '@apps/Core/Base/model/Base';
 
 export const DOCUMENT_NAME = 'Permission';
 const COLLECTION_NAME = 'permissions';
@@ -39,7 +38,6 @@ const schema = new Schema<Permissions>(
     { timestamps: true }
 );
 
-schema.index({ _id: 1 });
 schema.index({ resource: 1 });
 
 export const PermissionsModel = model<Permissions>(

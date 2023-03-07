@@ -1,7 +1,11 @@
 import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
 
-import { BaseModel } from './Base';
-import { Role, DOCUMENT_NAME as Role_DOCUMENT_NAME } from './Role';
+import { BaseModel } from '../../Base/model/Base';
+import {
+    Role,
+    DOCUMENT_NAME as Role_DOCUMENT_NAME
+} from '../../Role/model/role.model';
 
 export const DOCUMENT_NAME = 'User';
 const COLLECTION_NAME = 'users';
@@ -39,7 +43,12 @@ const schema = new Schema<User>(
     { timestamps: true }
 );
 
+// schema.methods.isValidPassword = async function (password: string) {
+//     // const user = this;
+//     // const compare = await bcrypt.compare(password, user.password);
+//     // return compare;
+// };
 schema.index({ email: 1 });
 schema.index({ username: 1 });
 
-export const UserModel = model<Role>(DOCUMENT_NAME, schema, COLLECTION_NAME);
+export const UserModel = model<User>(DOCUMENT_NAME, schema, COLLECTION_NAME);
