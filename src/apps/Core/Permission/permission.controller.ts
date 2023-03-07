@@ -56,9 +56,11 @@ export const FindAllPermissionsById = asyncHandler(
 
 export const GetPermission = asyncHandler(
     async (req: Request, res: Response) => {
-        const { id } = req.body;
-        const permission = await findPermissionById(id);
-        new SuccessResponse('Permissions', {
+        const { id } = req.params;
+        const permission = await findPermissionById(
+            id as unknown as Types.ObjectId
+        );
+        new SuccessResponse('Permission', {
             permission
         }).send(res);
     }
@@ -67,7 +69,7 @@ export const GetPermission = asyncHandler(
 export const GetAllPermission = asyncHandler(
     async (req: Request, res: Response) => {
         const permissions = await getAllPermissions();
-        new SuccessResponse('Permissions updated successfully', {
+        new SuccessResponse('Permissions', {
             permissions
         }).send(res);
     }

@@ -21,6 +21,7 @@ const schema = new Schema<Permissions>(
             required: true
         },
         actions: [
+            { type: Array, required: true },
             {
                 attributes: {
                     type: Schema.Types.String,
@@ -29,6 +30,7 @@ const schema = new Schema<Permissions>(
                 },
                 action: {
                     type: Schema.Types.String,
+                    enum: ['create', 'read', 'view', 'update'],
                     required: true,
                     trim: true
                 }
