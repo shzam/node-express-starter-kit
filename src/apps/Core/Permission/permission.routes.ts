@@ -4,7 +4,6 @@ import validator, { ValidationSource } from '@helpers/validator';
 import {
     CreatePermission,
     DeletePermissionByID,
-    FindAllPermissionsById,
     GetAllPermission,
     GetPermission,
     UpdatePermission
@@ -14,8 +13,6 @@ import schema from './permission.schema';
 const router = express.Router();
 
 router.get('/', GetAllPermission);
-
-router.post('/permissions', FindAllPermissionsById);
 
 router.get(
     '/:id',

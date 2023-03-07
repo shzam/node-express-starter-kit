@@ -20,7 +20,7 @@ export const CreatePermission = asyncHandler(
             resource: resource
         });
 
-        new SuccessResponse('Song created successfully', {
+        new SuccessResponse('Permission created successfully', {
             permission
         }).send(res);
     }

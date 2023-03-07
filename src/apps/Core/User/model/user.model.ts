@@ -14,7 +14,7 @@ export interface User extends BaseModel {
     email: string;
     username: string;
     password: string;
-    role: Role;
+    role?: Role;
 }
 
 const schema = new Schema<User>(
@@ -43,11 +43,6 @@ const schema = new Schema<User>(
     { timestamps: true }
 );
 
-// schema.methods.isValidPassword = async function (password: string) {
-//     // const user = this;
-//     // const compare = await bcrypt.compare(password, user.password);
-//     // return compare;
-// };
 schema.index({ email: 1 });
 schema.index({ username: 1 });
 
