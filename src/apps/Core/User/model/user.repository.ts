@@ -2,6 +2,7 @@ import { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { NoDataError } from '@core/ApiError';
 import { findById as findRoleById } from '@apps/Core/Role/model/role.repository';
+import { errorHandler } from '@apps/Core/Base/model/Base.repository';
 
 import { User, UserModel } from './user.model';
 
@@ -10,10 +11,12 @@ const createUser = async (
     username: string,
     password: string
 ): Promise<User> => {
-    const passwordHash = await bcrypt.hash(password, 10);
-    const user = new UserModel({ username, password: passwordHash, email });
-    const result = await user.save();
-    return result;
+    return errorHandler(async () => {
+        const passwordHash = await bcrypt.hash(password, 10);
+        const user = new UserModel({ username, password: passwordHash, email });
+        const result = await user.save();
+        return result;
+    });
 };
 
 const findUserByEmail = async (email: string): Promise<User | null> => {
@@ -23,7 +26,8 @@ const findUserByEmail = async (email: string): Promise<User | null> => {
 };
 const findUserById = async (id: string): Promise<User | null> => {
     const user = await UserModel.findOne({ id: id });
-    return user;
+    if (user) return user;
+    throw new NoDataError(`User with "${id}" not found`);
 };
 
 const getAllUsers = async (): Promise<User[]> => {
@@ -32,22 +36,32 @@ const getAllUsers = async (): Promise<User[]> => {
 };
 
 const updateUser = async (user: User, roleId?: Types.ObjectId) => {
-    if (roleId) {
-        const role = await findRoleById(roleId);
-        if (!role) {
-            throw new NoDataError(`Role with "${roleId}" not found`);
+    return errorHandler(async () => {
+        if (roleId) {
+            const role = await findRoleById(roleId);
+            if (!role) {
+                throw new NoDataError(`Role with "${roleId}" not found`);
+            }
+            user.role = role;
         }
-        user.role = role;
-    }
-    const newUser = await UserModel.findByIdAndUpdate(user._id, user, {
-        new: true
+        if (user.password) {
+            user.password = await bcrypt.hash(user.password, 10);
+        }
+        const newUser = await UserModel.findByIdAndUpdate(user._id, user, {
+            new: true
+        })
+            .select('+password')
+            .lean();
+        if (newUser) return newUser;
+        throw new NoDataError(`User with "${user._id}" not found`);
     });
-    return newUser;
 };
 
-const deleteUser = async (id: Types.ObjectId): Promise<boolean> => {
+const deleteUser = async (id: Types.ObjectId): Promise<void> => {
     const result = await UserModel.deleteOne({ _id: id });
-    return result.deletedCount > 0;
+
+    if (result.deletedCount > 0) return;
+    throw new NoDataError(`User with "${id}" not found`);
 };
 
 export {

@@ -15,8 +15,8 @@ import {
 
 export const CreateUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, username, password } = req.body;
-    const hashPassword = await bcrypt.hash(password, 10);
-    const user = await createUser(email, username, hashPassword);
+
+    const user = await createUser(email, username, password);
 
     new SuccessResponse('user created successfully', {
         user
@@ -26,8 +26,10 @@ export const CreateUser = asyncHandler(async (req: Request, res: Response) => {
 export const UpdateUser = asyncHandler(async (req: Request, res: Response) => {
     const { email, username, password } = req.body;
     const user = await findUserByEmail(email);
-    if (user!.password !== password)
-        user!.password = await bcrypt.hash(password, 10);
+
+    if (password) {
+        user!.password = password;
+    }
 
     user!.username = username;
     const newUser = await updateUser(user!);

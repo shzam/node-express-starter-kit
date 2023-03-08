@@ -16,12 +16,12 @@ router.get('/', GetUsers);
 
 router.get('/:id', validator(schema.userId, ValidationSource.PARAM), GetUser);
 
-router.post('/', validator(schema.userSchema), CreateUser);
+router.post('/', validator(schema.createUserSchema), CreateUser);
 
 router.put(
     '/:id',
     validator(schema.userId, ValidationSource.PARAM),
-    validator(schema.userSchema),
+    validator(schema.updateUserSchema),
     UpdateUser
 );
 
