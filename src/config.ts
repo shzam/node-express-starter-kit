@@ -1,6 +1,7 @@
 export const environment = process.env.NODE_ENV;
 export const port = process.env.PORT || 5000;
 export const timezone = process.env.TZ;
+export const SECRET_KEY = process.env.SECRET_KEY || 'secret';
 
 export const db = {
     name: process.env.DB_NAME || '',
