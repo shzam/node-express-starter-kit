@@ -1,5 +1,8 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { SECRET_KEY } from '@config';
+//
 
 import { BaseModel } from '../../Base/model/Base';
 import {
@@ -15,6 +18,8 @@ export interface User extends BaseModel {
     username: string;
     password: string;
     role?: Role;
+    validatePassword(password: string): boolean;
+    generateJWT(): { accessToken: string };
 }
 
 const schema = new Schema<User>(
@@ -42,6 +47,24 @@ const schema = new Schema<User>(
     },
     { timestamps: true }
 );
+schema.methods.validatePassword = async function (password: string) {
+    const hash = await bcrypt.compare(password, this.password);
+    return hash;
+};
+
+schema.methods.generateJWT = function () {
+    const secret = SECRET_KEY;
+    return {
+        accessToken: jwt.sign(
+            {
+                email: this.email,
+                id: this._id
+            },
+            secret,
+            { expiresIn: '1h' }
+        )
+    };
+};
 
 schema.index({ email: 1 });
 schema.index({ username: 1 });
