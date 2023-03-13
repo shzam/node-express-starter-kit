@@ -1,6 +1,6 @@
 import { BadRequestError } from '@core/ApiError';
 
-export const errorHandler = (callback: () => any) => {
+export const errorHandler = async (callback: () => any) => {
     try {
         return callback();
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {

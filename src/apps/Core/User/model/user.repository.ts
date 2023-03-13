@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
-import { NoDataError } from '@core/ApiError';
+import { BadRequestError, NoDataError } from '@core/ApiError';
 import { findById as findRoleById } from '@apps/Core/Role/model/role.repository';
 import { errorHandler } from '@apps/Core/Base/model/Base.repository';
 
@@ -11,12 +11,29 @@ const createUser = async (
     username: string,
     password: string
 ): Promise<User> => {
-    return errorHandler(async () => {
+    try {
         const passwordHash = await bcrypt.hash(password, 10);
-        const user = new UserModel({ username, password: passwordHash, email });
-        const result = await user.save();
-        return result;
-    });
+        const user = await UserModel.create({
+            username,
+            password: passwordHash,
+            email
+        });
+
+        return user;
+    } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
+        const keys = Object.keys(error.keyPattern);
+        const errorMessage: string[] = [];
+        switch (error.code) {
+            case 11000:
+                keys.forEach((key) => {
+                    const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
+                    errorMessage.push(message);
+                });
+                throw new BadRequestError(`${errorMessage}`);
+            default:
+                throw new BadRequestError('Unknown error ');
+        }
+    }
 };
 
 const findUserByEmail = async (email: string): Promise<User | null> => {

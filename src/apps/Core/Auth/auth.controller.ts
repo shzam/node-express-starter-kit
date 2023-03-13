@@ -50,10 +50,9 @@ export const Register = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const Logout = asyncHandler(async (req: Request, res: Response) => {
-    // const token = req.headers['authorization'];
     const jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
     const token = jwtFromRequest(req);
-    console.log(token);
+
     await blackListToken(token!);
 
     new SuccessResponse('Logout Successfully', {}).send(res);

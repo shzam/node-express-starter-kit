@@ -30,7 +30,7 @@ const strategy = new JWTStrategy(JWToptions, async (payload, done) => {
 passport.use(
     'local',
     new LocalStrategy(
-        { usernameField: 'email', passwordField: 'password' },
+        { usernameField: 'email', passwordField: 'password', session: false },
         async (email, password, done) => {
             const user = await findUserByEmail(email);
             if (!user) {

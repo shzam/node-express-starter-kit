@@ -25,16 +25,20 @@ export const isTokenBlackListed = async (token: string): Promise<boolean> => {
 };
 
 export const blackListToken = async (token: string): Promise<void> => {
-    const jwtToken = await JwtTokenModel.findOneAndUpdate(
-        { accessKey: token },
-        { $set: { blackList: true } }
+    const jwtToken = await JwtTokenModel.updateOne(
+        { accessKey: { $in: token } },
+        { blacklisted: true }
     );
 
     if (!jwtToken) throw new NoDataError(`No token found for ${token}`);
 };
 
 export const blackListTokens = async (token: string[]) => {
-    await JwtTokenModel.updateMany({ accessKey: token }, { blackList: true });
+    const jwt = await JwtTokenModel.updateMany(
+        { accessKey: { $in: token } },
+        { $set: { blacklisted: true } }
+    );
+    console.log(jwt);
 };
 
 export const getTokenWithUserId = async (
