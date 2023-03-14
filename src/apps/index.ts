@@ -1,14 +1,10 @@
 import express from 'express';
 
 //
-import Permission from './Core/Permission/permission.routes';
-import User from './Core/User/user.routes';
-import Auth from './Core/Auth/auth.routes';
+import Core from './Core';
 
 const router = express.Router();
 
-router.use('/core/permission', Permission);
-router.use('/core/user', User);
-router.use('/core/auth', Auth);
+router.use('/core', Core);
 
 export default router;

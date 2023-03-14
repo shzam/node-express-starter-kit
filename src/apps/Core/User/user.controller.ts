@@ -2,7 +2,6 @@ import { Types } from 'mongoose';
 import { Request, Response } from 'express';
 import asyncHandler from '@helpers/asyncHandler';
 import { SuccessResponse } from '@core/ApiResponse';
-import bcrypt from 'bcrypt';
 
 import {
     createUser,

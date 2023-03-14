@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { BadRequestError, NoDataError } from '@core/ApiError';
-import { findById as findRoleById } from '@apps/Core/Role/model/role.repository';
+import { findRoleById } from '@apps/Core/Role/model/role.repository';
 import { errorHandler } from '@apps/Core/Base/model/Base.repository';
 
 import { User, UserModel } from './user.model';

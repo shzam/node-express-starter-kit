@@ -10,12 +10,12 @@ export const DOCUMENT_NAME = 'Role';
 const COLLECTION_NAME = 'roles';
 
 export interface Role extends BaseModel {
-    RoleName: string;
+    roleName: string;
     permissions: Permissions[];
 }
 
 const schema = new Schema<Role>({
-    RoleName: {
+    roleName: {
         type: Schema.Types.String,
         required: true
     },
