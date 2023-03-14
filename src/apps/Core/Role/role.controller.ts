@@ -16,16 +16,12 @@ export const CreateRole = asyncHandler(async (req: Request, res: Response) => {
 
     const role = await createRole(roleName, permissions);
 
-    new SuccessResponse('Role created successfully', {
-        role
-    }).send(res);
+    new SuccessResponse('Role created successfully', role).send(res);
 });
 
 export const GetAllRoles = asyncHandler(async (req: Request, res: Response) => {
     const role = await findAllRolesById([]);
-    new SuccessResponse('role', {
-        role
-    }).send(res);
+    new SuccessResponse('role', role).send(res);
 });
 
 export const GetRole = asyncHandler(async (req: Request, res: Response) => {
@@ -33,9 +29,7 @@ export const GetRole = asyncHandler(async (req: Request, res: Response) => {
 
     const role = await findRoleById(roleId as unknown as Types.ObjectId);
 
-    new SuccessResponse('role', {
-        role
-    }).send(res);
+    new SuccessResponse('role', role).send(res);
 });
 
 export const UpdateRole = asyncHandler(async (req: Request, res: Response) => {
@@ -48,9 +42,7 @@ export const UpdateRole = asyncHandler(async (req: Request, res: Response) => {
         roleId as unknown as Types.ObjectId
     );
 
-    new SuccessResponse('role updated successfully', {
-        role
-    }).send(res);
+    new SuccessResponse('role updated successfully', role).send(res);
 });
 
 export const DeleteRole = asyncHandler(async (req: Request, res: Response) => {

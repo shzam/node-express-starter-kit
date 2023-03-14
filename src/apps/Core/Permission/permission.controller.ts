@@ -20,9 +20,9 @@ export const CreatePermission = asyncHandler(
             resource: resource
         });
 
-        new SuccessResponse('Permission created successfully', {
-            permission
-        }).send(res);
+        new SuccessResponse('Permission created successfully', permission).send(
+            res
+        );
     }
 );
 
@@ -37,9 +37,9 @@ export const UpdatePermission = asyncHandler(
             resource
         });
 
-        new SuccessResponse('Permission updated successfully', {
-            permission
-        }).send(res);
+        new SuccessResponse('Permission updated successfully', permission).send(
+            res
+        );
     }
 );
 
@@ -48,9 +48,7 @@ export const FindAllPermissionsById = asyncHandler(
         const { ids } = req.body;
         const permissions = await findAllPermissionsById(ids);
 
-        new SuccessResponse('Permissions', {
-            permissions
-        }).send(res);
+        new SuccessResponse('Permissions', permissions).send(res);
     }
 );
 
@@ -60,18 +58,14 @@ export const GetPermission = asyncHandler(
         const permission = await findPermissionById(
             id as unknown as Types.ObjectId
         );
-        new SuccessResponse('Permission', {
-            permission
-        }).send(res);
+        new SuccessResponse('Permission', permission).send(res);
     }
 );
 
 export const GetAllPermission = asyncHandler(
     async (req: Request, res: Response) => {
         const permissions = await getAllPermissions();
-        new SuccessResponse('Permissions', {
-            permissions
-        }).send(res);
+        new SuccessResponse('Permissions', permissions).send(res);
     }
 );
 

@@ -9,7 +9,7 @@ import Auth from './Auth/auth.routes';
 const router = express.Router();
 
 router.use('/permission', Permission);
-router.use('./role', Role);
+router.use('/role', Role);
 router.use('/user', User);
 router.use('/auth', Auth);
 

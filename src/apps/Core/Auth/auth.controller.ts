@@ -36,7 +36,7 @@ export const Login = asyncHandler(async (req: Request, res: Response) => {
         ...generatedToken,
         user: { username: user.username, email: user.email, id: user._id }
     };
-    new SuccessResponse('Login Successfully', { response }).send(res);
+    new SuccessResponse('Login Successfully', response).send(res);
 });
 
 export const Register = asyncHandler(async (req: Request, res: Response) => {

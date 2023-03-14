@@ -42,16 +42,12 @@ export const GetUser = asyncHandler(async (req: Request, res: Response) => {
     const { id } = req.params;
     const user = await findUserById(id);
 
-    new SuccessResponse('User', {
-        user
-    }).send(res);
+    new SuccessResponse('User', user).send(res);
 });
 
 export const GetUsers = asyncHandler(async (req: Request, res: Response) => {
     const users = await getAllUsers();
-    new SuccessResponse('Users', {
-        users
-    }).send(res);
+    new SuccessResponse('Users', users).send(res);
 });
 
 export const DeleteUser = asyncHandler(async (req: Request, res: Response) => {

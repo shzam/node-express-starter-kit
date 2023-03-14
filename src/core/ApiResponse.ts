@@ -22,6 +22,7 @@ abstract class ApiResponse {
     ): Response {
         for (const [key, value] of Object.entries(headers))
             res.append(key, value);
+
         return res
             .status(this.status as number)
             .json(ApiResponse.sanitize(response));
