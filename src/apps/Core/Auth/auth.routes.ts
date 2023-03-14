@@ -1,5 +1,5 @@
 import express from 'express';
-import validator, { ValidationSource } from '@helpers/validator';
+import validator from '@helpers/validator';
 import passport from 'passport';
 import { ProtectedRoutes } from '@helpers/auth';
 
