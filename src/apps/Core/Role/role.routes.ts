@@ -1,5 +1,5 @@
 import express from 'express';
-import { ProtectedRoutes } from '@helpers/auth';
+import { ProtectRoutes } from '@helpers/auth';
 import validator, { ValidationSource } from '@helpers/validator';
 
 import {
@@ -13,20 +13,20 @@ import schema from './role.schema';
 
 const router = express.Router();
 
-router.get('/', ProtectedRoutes, GetAllRoles);
+router.get('/', ProtectRoutes, GetAllRoles);
 
 router.get(
     '/:id',
-    ProtectedRoutes,
+    ProtectRoutes,
     validator(schema.roleId, ValidationSource.PARAM),
     GetRole
 );
 
-router.post('/', ProtectedRoutes, validator(schema.roleId), CreateRole);
+router.post('/', ProtectRoutes, validator(schema.roleId), CreateRole);
 
 router.put(
     '/:id',
-    ProtectedRoutes,
+    ProtectRoutes,
     validator(schema.roleId, ValidationSource.PARAM),
     validator(schema.roleSchema),
     UpdateRole
@@ -34,7 +34,7 @@ router.put(
 
 router.delete(
     '/:id',
-    ProtectedRoutes,
+    ProtectRoutes,
     validator(schema.roleId, ValidationSource.PARAM),
     DeleteRole
 );

@@ -7,7 +7,7 @@ describe('Demo test', () => {
     const request = supertest(app);
     it('Success test', async () => {
         const response = await request.get('/core/permission');
-        expect(response.status).toBe(StatusCodes.OK);
+        expect(response.status).toBe(StatusCodes.UNAUTHORIZED);
     });
     it('Route Not Found test', async () => {
         const response = await request.get('/');

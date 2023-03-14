@@ -1,5 +1,6 @@
 import express from 'express';
 import validator, { ValidationSource } from '@helpers/validator';
+import { ProtectRoutes } from '@helpers/auth';
 
 import {
     CreatePermission,
@@ -12,18 +13,25 @@ import schema from './permission.schema';
 
 const router = express.Router();
 
-router.get('/', GetAllPermission);
+router.get('/', ProtectRoutes, GetAllPermission);
 
 router.get(
     '/:id',
+    ProtectRoutes,
     validator(schema.permissionId, ValidationSource.PARAM),
     GetPermission
 );
 
-router.post('/', validator(schema.permissionSchema), CreatePermission);
+router.post(
+    '/',
+    ProtectRoutes,
+    validator(schema.permissionSchema),
+    CreatePermission
+);
 
 router.put(
     '/:id',
+    ProtectRoutes,
     validator(schema.permissionId, ValidationSource.PARAM),
     validator(schema.permissionSchema),
     UpdatePermission

@@ -1,7 +1,7 @@
 import express from 'express';
 import validator from '@helpers/validator';
 import passport from 'passport';
-import { ProtectedRoutes } from '@helpers/auth';
+import { ProtectRoutes } from '@helpers/auth';
 
 import { Login, Logout, Register } from './auth.controller';
 import schema from './auth.schema';
@@ -17,6 +17,6 @@ router.post(
 
 router.post('/register', validator(schema.registerUserSchema), Register);
 
-router.get('/logout', ProtectedRoutes, Logout);
+router.get('/logout', ProtectRoutes, Logout);
 
 export default router;

@@ -1,3 +1,3 @@
 import passport from 'passport';
 
-export const ProtectedRoutes = passport.authenticate('jwt', { session: false });
+export const ProtectRoutes = passport.authenticate('jwt', { session: false });
