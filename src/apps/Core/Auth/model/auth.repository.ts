@@ -34,11 +34,10 @@ export const blackListToken = async (token: string): Promise<void> => {
 };
 
 export const blackListTokens = async (token: string[]) => {
-    const jwt = await JwtTokenModel.updateMany(
+    await JwtTokenModel.updateMany(
         { accessKey: { $in: token } },
         { $set: { blacklisted: true } }
     );
-    console.log(jwt);
 };
 
 export const getTokenWithUserId = async (

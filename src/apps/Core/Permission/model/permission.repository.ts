@@ -1,3 +1,4 @@
+import { NoDataError } from '@core/ApiError';
 import { Types } from 'mongoose';
 
 import { Permissions, PermissionsModel } from './permissions.model';
@@ -33,6 +34,7 @@ const findPermissionById = async (
     const permission = await PermissionsModel.findOne({ _id: id })
         .lean()
         .exec();
+    if (!permission) throw new NoDataError('no');
     return permission;
 };
 
@@ -49,11 +51,11 @@ const getAllPermissions = async (): Promise<Permissions[]> => {
     return permissions;
 };
 
-const deletePermissionByID = async (
-    ids: Types.ObjectId[]
-): Promise<boolean> => {
+const deletePermissionByID = async (ids: Types.ObjectId[]): Promise<void> => {
     const result = await PermissionsModel.deleteMany({ _id: { $in: ids } });
-    return result.deletedCount > 0;
+    if (result.deletedCount === 0) {
+        throw new NoDataError(`No permission with id ${ids}`);
+    }
 };
 
 export {

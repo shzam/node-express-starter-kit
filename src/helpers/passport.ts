@@ -26,10 +26,8 @@ const strategy = new JWTStrategy(
     JWToptions,
     async (req: Request, payload: JwtPayload, done: VerifiedCallback) => {
         const user = await findUserById(payload.sub!);
-        console.log(user);
         if (user) {
             const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
-            console.log(token);
             const jwtToken = await findByToken(token!);
 
             if (jwtToken.blacklisted === false && jwtToken.ipAddress === req.ip)

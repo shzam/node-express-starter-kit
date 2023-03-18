@@ -71,8 +71,9 @@ export const GetAllPermission = asyncHandler(
 
 export const DeletePermissionByID = asyncHandler(
     async (req: Request, res: Response) => {
-        const { id } = req.body;
-        await deletePermissionByID(id);
+        const { id } = req.params;
+
+        await deletePermissionByID([id as unknown as Types.ObjectId]);
         new SuccessResponse('Permission deleted successfully', {}).send(res);
     }
 );

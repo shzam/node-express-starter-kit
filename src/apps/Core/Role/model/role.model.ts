@@ -17,7 +17,9 @@ export interface Role extends BaseModel {
 const schema = new Schema<Role>({
     roleName: {
         type: Schema.Types.String,
-        required: true
+        required: true,
+        trim: true,
+        unique: true
     },
     permissions: {
         type: [

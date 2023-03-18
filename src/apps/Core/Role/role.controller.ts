@@ -7,8 +7,8 @@ import {
     createRole,
     deleteRoleById,
     updateRoleById,
-    findAllRolesById,
-    findRoleById
+    findRoleById,
+    getAllRole
 } from './model/role.repository';
 
 export const CreateRole = asyncHandler(async (req: Request, res: Response) => {
@@ -20,8 +20,8 @@ export const CreateRole = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const GetAllRoles = asyncHandler(async (req: Request, res: Response) => {
-    const role = await findAllRolesById([]);
-    new SuccessResponse('role', role).send(res);
+    const roles = await getAllRole();
+    new SuccessResponse('roles', roles).send(res);
 });
 
 export const GetRole = asyncHandler(async (req: Request, res: Response) => {

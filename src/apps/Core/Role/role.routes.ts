@@ -22,7 +22,7 @@ router.get(
     GetRole
 );
 
-router.post('/', ProtectRoutes, validator(schema.roleId), CreateRole);
+router.post('/', ProtectRoutes, validator(schema.roleSchema), CreateRole);
 
 router.put(
     '/:id',

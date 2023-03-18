@@ -43,4 +43,10 @@ router.delete(
     DeletePermissionByID
 );
 
+router.delete(
+    '/',
+    validator(schema.permissionIds, ValidationSource.BODY),
+    DeletePermissionByID
+);
+
 export default router;

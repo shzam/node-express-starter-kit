@@ -15,5 +15,8 @@ export default {
     }),
     permissionId: Joi.object().keys({
         id: JoiObjectId().required()
+    }),
+    permissionIds: Joi.object().keys({
+        ids: Joi.array().items(JoiObjectId().required()).required()
     })
 };
