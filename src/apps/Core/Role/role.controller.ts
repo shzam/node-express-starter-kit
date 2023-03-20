@@ -21,32 +21,33 @@ export const CreateRole = asyncHandler(async (req: Request, res: Response) => {
 
 export const GetAllRoles = asyncHandler(async (req: Request, res: Response) => {
     const roles = await getAllRole();
+    console.log(roles);
     new SuccessResponse('roles', roles).send(res);
 });
 
 export const GetRole = asyncHandler(async (req: Request, res: Response) => {
-    const { roleId } = req.params;
+    const { id } = req.params;
 
-    const role = await findRoleById(roleId as unknown as Types.ObjectId);
+    const role = await findRoleById(id as unknown as Types.ObjectId);
 
     new SuccessResponse('role', role).send(res);
 });
 
 export const UpdateRole = asyncHandler(async (req: Request, res: Response) => {
-    const { roleId } = req.params;
+    const { id } = req.params;
     const { roleName, permissions } = req.body;
 
     const role = await updateRoleById(
         roleName,
         permissions,
-        roleId as unknown as Types.ObjectId
+        id as unknown as Types.ObjectId
     );
 
     new SuccessResponse('role updated successfully', role).send(res);
 });
 
 export const DeleteRole = asyncHandler(async (req: Request, res: Response) => {
-    const { roleId } = req.params;
-    await deleteRoleById(roleId as unknown as Types.ObjectId);
+    const { id } = req.params;
+    await deleteRoleById(id as unknown as Types.ObjectId);
     new SuccessResponse('Role deleted successfully', {}).send(res);
 });

@@ -13,13 +13,14 @@ const createRole = async (
         throw new NoDataError('Permission not found');
     }
     try {
-        console.log('pre close');
-        const role = RoleModel.create({ roleName: roleName, permissions });
+        const role = await RoleModel.create({
+            roleName: roleName,
+            permissions
+        });
         return role;
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
         const keys = Object.keys(error.keyPattern);
         const errorMessage: string[] = [];
-        console.log(error);
         switch (error.code) {
             case 11000:
                 keys.forEach((key) => {
@@ -39,9 +40,8 @@ const findRoleById = async (id: Types.ObjectId): Promise<Role | null> => {
 };
 
 const getAllRole = async (): Promise<Role[]> => {
-    const role = await RoleModel.find({}).populate('permissions');
-
-    return role;
+    const roles = await RoleModel.find({}).populate('permissions');
+    return roles;
 };
 
 const findAllRolesById = async (ids: Types.ObjectId[]): Promise<Role[]> => {
@@ -56,19 +56,21 @@ const updateRoleById = async (
     permissionsIds: Types.ObjectId[],
     id: Types.ObjectId
 ): Promise<Role | null> => {
-    try {
-        const permissions = await findAllPermissionsById(permissionsIds);
+    const permissions = await findAllPermissionsById(permissionsIds);
 
-        if (!permissions) {
-            throw new NoDataError('Permission not found');
-        }
-        const role = await findRoleById(id);
-        if (!role) {
-            throw new NoDataError('Role not found');
-        }
-        role.roleName = roleName;
-        role.permissions = permissions;
-        const updateRole = await RoleModel.findByIdAndUpdate(role._id, role, {
+    if (!permissions) {
+        throw new NoDataError('Permission not found');
+    }
+    const role = await findRoleById(id);
+    console.log(role);
+    if (role === null) {
+        throw new NoDataError('Role not found');
+    }
+    role.roleName = roleName;
+    role.permissions = permissions;
+
+    try {
+        const updateRole = await RoleModel.findByIdAndUpdate(id, role, {
             new: true
         })
             .lean()
@@ -78,6 +80,7 @@ const updateRoleById = async (
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
         const keys = Object.keys(error.keyPattern);
         const errorMessage: string[] = [];
+        console.log(error);
         switch (error.code) {
             case 11000:
                 keys.forEach((key) => {
@@ -86,7 +89,7 @@ const updateRoleById = async (
                 });
                 throw new BadRequestError(`${errorMessage}`);
             default:
-                throw new BadRequestError('Unknown error ');
+                throw error;
         }
     }
 };

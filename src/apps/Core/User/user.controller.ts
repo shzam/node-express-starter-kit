@@ -13,17 +13,15 @@ import {
 } from './model/user.repository';
 
 export const CreateUser = asyncHandler(async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
+    const { email, username, password, role } = req.body;
 
-    const user = await createUser(email, username, password);
+    const user = await createUser(email, username, password, role);
 
-    new SuccessResponse('user created successfully', {
-        user
-    }).send(res);
+    new SuccessResponse('user created successfully', user).send(res);
 });
 
 export const UpdateUser = asyncHandler(async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
+    const { email, username, password, role } = req.body;
     const user = await findUserByEmail(email);
 
     if (password) {
@@ -31,11 +29,10 @@ export const UpdateUser = asyncHandler(async (req: Request, res: Response) => {
     }
 
     user!.username = username;
-    const newUser = await updateUser(user!);
 
-    new SuccessResponse('user updated successfully', {
-        newUser
-    }).send(res);
+    const newUser = await updateUser(user!, role);
+
+    new SuccessResponse('user updated successfully', newUser).send(res);
 });
 
 export const GetUser = asyncHandler(async (req: Request, res: Response) => {

@@ -61,7 +61,7 @@ schema.methods.generateJWT = function () {
                 id: this._id
             },
             secret,
-            { expiresIn: '1h' }
+            { expiresIn: '1d' }
         )
     };
 };

@@ -1,31 +1,62 @@
-import { NoDataError } from '@core/ApiError';
+import { BadRequestError, NoDataError } from '@core/ApiError';
 import { Types } from 'mongoose';
 
 import { Permissions, PermissionsModel } from './permissions.model';
 
 const createPermissions = async (
-    permission: Pick<Permissions, 'actions' | 'resource'>
+    permission: Pick<Permissions, 'action' | 'resource' | 'attributes'>
 ): Promise<Permissions> => {
-    const newPermission = await PermissionsModel.create(permission);
-    return newPermission;
+    try {
+        const newPermission = await PermissionsModel.create(permission);
+        return newPermission;
+    } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
+        const keys = Object.keys(error.keyPattern);
+        const errorMessage: string[] = [];
+        switch (error.code) {
+            case 11000:
+                keys.forEach((key) => {
+                    const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
+                    errorMessage.push(message);
+                });
+                throw new BadRequestError(`${errorMessage}`);
+            default:
+                throw new BadRequestError('Unknown error ');
+        }
+    }
 };
 
 const updatedPermissions = async ({
-    actions,
+    action,
     resource,
+    attributes,
     _id
 }: Pick<
     Permissions,
-    'actions' | 'resource' | '_id'
+    'action' | 'resource' | '_id' | 'attributes'
 >): Promise<Permissions | null> => {
-    const updatedPermissions = await PermissionsModel.findByIdAndUpdate(
-        _id,
-        { actions, resource },
-        { new: true }
-    )
-        .lean()
-        .exec();
-    return updatedPermissions;
+    try {
+        const updatedPermissions = await PermissionsModel.findByIdAndUpdate(
+            _id,
+            { action, resource, attributes: attributes || '*' },
+            { new: true }
+        )
+            .lean()
+            .exec();
+        return updatedPermissions;
+    } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
+        const keys = Object.keys(error.keyPattern);
+        const errorMessage: string[] = [];
+        switch (error.code) {
+            case 11000:
+                keys.forEach((key) => {
+                    const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
+                    errorMessage.push(message);
+                });
+                throw new BadRequestError(`${errorMessage}`);
+            default:
+                throw new BadRequestError('Unknown error ');
+        }
+    }
 };
 
 const findPermissionById = async (

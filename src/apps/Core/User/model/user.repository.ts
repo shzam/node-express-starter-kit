@@ -9,14 +9,16 @@ import { User, UserModel } from './user.model';
 const createUser = async (
     email: string,
     username: string,
-    password: string
+    password: string,
+    role: string | undefined
 ): Promise<User> => {
     try {
         const passwordHash = await bcrypt.hash(password, 10);
         const user = await UserModel.create({
             username,
             password: passwordHash,
-            email
+            email,
+            role: role ?? 'user'
         });
 
         return user;
@@ -37,18 +39,86 @@ const createUser = async (
 };
 
 const findUserByEmail = async (email: string): Promise<User | null> => {
-    const user = await UserModel.findOne({ email: email });
-    if (user) return user;
+    const user = await UserModel.aggregate([
+        { $match: { email: email } },
+        // Lookup the roles collection and populate the role field for each user document
+        {
+            $lookup: {
+                from: 'roles',
+                localField: 'role',
+                foreignField: '_id',
+                as: 'role'
+            }
+        },
+        // Unwind the role array to deconstruct the documents
+        {
+            $unwind: '$role'
+        },
+        // Add a roleName field to each user document by projecting it from the role collection
+        {
+            $addFields: {
+                roleName: '$role.roleName'
+            }
+        },
+        // Project the final document to exclude the role field
+        {
+            $project: {
+                role: 0
+            }
+        }
+    ]);
+    if (user.length > 0) return user[0];
     throw new NoDataError(`User with "${email}" not found`);
 };
 const findUserById = async (id: string): Promise<User | null> => {
-    const user = await UserModel.findOne({ id: id });
-    if (user) return user;
+    const user = await UserModel.aggregate([
+        // Lookup the roles collection and populate the role field for each user document
+        {
+            $lookup: {
+                from: 'roles',
+                localField: 'role',
+                foreignField: '_id',
+                as: 'role'
+            }
+        },
+        // Unwind the role array to deconstruct the documents
+        {
+            $unwind: '$role'
+        },
+        // Add a roleName field to each user document by projecting it from the role collection
+        {
+            $addFields: {
+                role: '$role.roleName'
+            }
+        }
+        // Project the final document to exclude the role field
+    ]);
+    if (user.length > 0) return user[0];
     throw new NoDataError(`User with "${id}" not found`);
 };
 
 const getAllUsers = async (): Promise<User[]> => {
-    const users = await UserModel.find({});
+    const users = await UserModel.aggregate([
+        // Lookup the roles collection and populate the role field for each user document
+        {
+            $lookup: {
+                from: 'roles',
+                localField: 'role',
+                foreignField: '_id',
+                as: 'role'
+            }
+        },
+        // Unwind the role array to deconstruct the documents
+        {
+            $unwind: '$role'
+        },
+        // Add a roleName field to each user document by projecting it from the role collection
+        {
+            $addFields: {
+                role: '$role.roleName'
+            }
+        }
+    ]);
     return users;
 };
 

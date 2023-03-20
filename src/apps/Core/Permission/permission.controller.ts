@@ -14,10 +14,11 @@ import {
 
 export const CreatePermission = asyncHandler(
     async (req: Request, res: Response) => {
-        const { resource, actions } = req.body;
+        const { resource, action, attributes } = req.body;
         const permission = await createPermissions({
-            actions: actions,
-            resource: resource
+            action: action,
+            resource: resource,
+            attributes: attributes ?? ['*']
         });
 
         new SuccessResponse('Permission created successfully', permission).send(
@@ -28,13 +29,14 @@ export const CreatePermission = asyncHandler(
 
 export const UpdatePermission = asyncHandler(
     async (req: Request, res: Response) => {
-        const { resource, actions } = req.body;
+        const { resource, action, attributes } = req.body;
         const { id } = req.params;
 
         const permission = await updatedPermissions({
             _id: id as unknown as Types.ObjectId,
-            actions,
-            resource
+            action,
+            resource,
+            attributes
         });
 
         new SuccessResponse('Permission updated successfully', permission).send(

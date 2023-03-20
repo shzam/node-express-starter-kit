@@ -34,17 +34,27 @@ export const Login = asyncHandler(async (req: Request, res: Response) => {
 
     const response = {
         ...generatedToken,
-        user: { username: user.username, email: user.email, id: user._id }
+        user: {
+            username: user.username,
+            email: user.email,
+            id: user._id,
+            role: user.role?.roleName
+        }
     };
     new SuccessResponse('Login Successfully', response).send(res);
 });
 
 export const Register = asyncHandler(async (req: Request, res: Response) => {
-    const { email, username, password } = req.body;
-    const user = await createUser(email, username, password);
+    const { email, username, password, role } = req.body;
+    const user = await createUser(email, username, password, role);
     const response = {
         ...user.generateJWT(),
-        user: { username: user.username, email: user.email, id: user._id }
+        user: {
+            username: user.username,
+            email: user.email,
+            id: user._id,
+            role: user.role?.roleName
+        }
     };
     new SuccessResponse('Register Successfully', { response }).send(res);
 });

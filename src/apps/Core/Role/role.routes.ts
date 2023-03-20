@@ -1,6 +1,7 @@
 import express from 'express';
 import { ProtectRoutes } from '@helpers/auth';
 import validator, { ValidationSource } from '@helpers/validator';
+import permission from '@helpers/permission';
 
 import {
     CreateRole,
@@ -22,7 +23,13 @@ router.get(
     GetRole
 );
 
-router.post('/', ProtectRoutes, validator(schema.roleSchema), CreateRole);
+router.post(
+    '/',
+    ProtectRoutes,
+    permission('role', 'create'),
+    validator(schema.roleSchema),
+    CreateRole
+);
 
 router.put(
     '/:id',
