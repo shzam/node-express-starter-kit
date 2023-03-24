@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { BaseModel } from '@apps/Core/Base/model/Base';
 
 export const DOCUMENT_NAME = 'Permission';
-const COLLECTION_NAME = 'permissions';
+export const COLLECTION_NAME = 'permissions';
 
 export interface Permissions extends BaseModel {
     resource: string;
