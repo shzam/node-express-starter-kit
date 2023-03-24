@@ -1,4 +1,5 @@
 import { Response, NextFunction, Request } from 'express';
+import mongoose from 'mongoose';
 import accessControl from 'accesscontrol';
 import { ForbiddenError, InternalError } from '@core/ApiError';
 import { getAllRole } from '@apps/Core/Role/model/role.repository';
@@ -34,10 +35,21 @@ export default (
     ) =>
     async (req: Request, res: Response, next: NextFunction) => {
         const ac = new accessControl.AccessControl();
+        const isExists = await mongoose.connection.db
+            .listCollections({
+                name: resource
+            })
+            .toArray();
+
+        if (isExists.length === 0) {
+            next(
+                `model with name of '${resource}' does not exists exists, can not check permissions`
+            );
+        }
+
         const grantList = await getAccessControl();
         ac.setGrants(grantList);
-        console.log('hello');
-        console.log(grantList);
+
         try {
             const user: Partial<User> = req.user!;
             const role = user.role?.roleName || 'user';
