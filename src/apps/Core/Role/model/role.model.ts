@@ -7,7 +7,7 @@ import {
 } from '../../Permission/model/permissions.model';
 
 export const DOCUMENT_NAME = 'Role';
-const COLLECTION_NAME = 'roles';
+export const COLLECTION_NAME = 'roles';
 
 export interface Role extends BaseModel {
     roleName: string;
