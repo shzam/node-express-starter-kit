@@ -39,35 +39,8 @@ const createUser = async (
 };
 
 const findUserByEmail = async (email: string): Promise<User | null> => {
-    const user = await UserModel.aggregate([
-        { $match: { email: email } },
-        // Lookup the roles collection and populate the role field for each user document
-        {
-            $lookup: {
-                from: 'roles',
-                localField: 'role',
-                foreignField: '_id',
-                as: 'role'
-            }
-        },
-        // Unwind the role array to deconstruct the documents
-        {
-            $unwind: '$role'
-        },
-        // Add a roleName field to each user document by projecting it from the role collection
-        {
-            $addFields: {
-                roleName: '$role.roleName'
-            }
-        },
-        // Project the final document to exclude the role field
-        {
-            $project: {
-                role: 0
-            }
-        }
-    ]);
-    if (user.length > 0) return user[0];
+    const user = await UserModel.findOne({ email: email });
+    if (user) return user;
     throw new NoDataError(`User with "${email}" not found`);
 };
 const findUserById = async (id: string): Promise<User | null> => {
