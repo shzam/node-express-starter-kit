@@ -11,7 +11,7 @@ import {
 } from '../../Role/model/role.model';
 
 export const DOCUMENT_NAME = 'User';
-const COLLECTION_NAME = 'users';
+export const COLLECTION_NAME = 'users';
 
 export interface User extends BaseModel {
     email: string;
