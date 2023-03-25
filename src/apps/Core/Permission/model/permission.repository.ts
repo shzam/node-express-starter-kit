@@ -1,12 +1,47 @@
 import { BadRequestError, NoDataError } from '@core/ApiError';
-import { Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 import { Permissions, PermissionsModel } from './permissions.model';
+
+const createMultiplePermissions = async (
+    permission: Pick<Permissions, 'action' | 'resource' | 'attributes'>[]
+) => {
+    const isExists = await mongoose.connection.db
+        .listCollections({
+            name: { $in: permission.map((x) => x.resource) }
+        })
+        .toArray();
+    if (isExists.length !== permission.length) {
+        throw new BadRequestError(
+            `can not create permissions, with model that does not exist`
+        );
+    }
+    const bulkOps = permission.map((doc) => ({
+        updateOne: {
+            filter: { resource: doc.resource },
+            update: { $set: doc },
+            upsert: true
+        }
+    }));
+
+    const permissions = await PermissionsModel.bulkWrite(bulkOps);
+    return permissions;
+};
 
 const createPermissions = async (
     permission: Pick<Permissions, 'action' | 'resource' | 'attributes'>
 ): Promise<Permissions> => {
     try {
+        const isExists = await mongoose.connection.db
+            .listCollections({
+                name: permission.resource
+            })
+            .toArray();
+        if (isExists.length === 0) {
+            throw new BadRequestError(
+                `there is no database table with name ${permission.resource}`
+            );
+        }
         const newPermission = await PermissionsModel.create(permission);
         return newPermission;
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
@@ -35,6 +70,16 @@ const updatedPermissions = async ({
     'action' | 'resource' | '_id' | 'attributes'
 >): Promise<Permissions | null> => {
     try {
+        const isExists = await mongoose.connection.db
+            .listCollections({
+                name: resource
+            })
+            .toArray();
+        if (isExists.length === 0) {
+            throw new BadRequestError(
+                `there is no database table with name ${resource}`
+            );
+        }
         const updatedPermissions = await PermissionsModel.findByIdAndUpdate(
             _id,
             { action, resource, attributes: attributes || '*' },
@@ -65,7 +110,7 @@ const findPermissionById = async (
     const permission = await PermissionsModel.findOne({ _id: id })
         .lean()
         .exec();
-    if (!permission) throw new NoDataError('no');
+    if (!permission) throw new NoDataError('no permission found');
     return permission;
 };
 
@@ -95,5 +140,6 @@ export {
     findPermissionById,
     findAllPermissionsById,
     deletePermissionByID,
-    getAllPermissions
+    getAllPermissions,
+    createMultiplePermissions
 };

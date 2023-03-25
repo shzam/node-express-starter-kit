@@ -4,6 +4,21 @@ import { findAllPermissionsById } from '@apps/Core/Permission/model/permission.r
 
 import { Role, RoleModel } from './role.model';
 
+const createMultipleRole = async (
+    roles: Pick<Role, 'permissions' | 'roleName'>[]
+) => {
+    const bulkOps = roles.map((doc) => ({
+        updateOne: {
+            filter: { roleName: doc.roleName },
+            update: { $set: doc },
+            upsert: true
+        }
+    }));
+
+    const role = await RoleModel.bulkWrite(bulkOps);
+    return role;
+};
+
 const createRole = async (
     roleName: string,
     permissionsIds: Types.ObjectId[]
@@ -49,6 +64,12 @@ const findAllRolesById = async (ids: Types.ObjectId[]): Promise<Role[]> => {
         .lean()
         .exec();
     return roles;
+};
+
+const getRoleByName = async (roleName: string) => {
+    const role = await RoleModel.findOne({ roleName: roleName });
+    if (role) return role;
+    throw new NoDataError('no permission found');
 };
 
 const updateRoleById = async (
@@ -102,8 +123,10 @@ const deleteRoleById = async (id: Types.ObjectId): Promise<boolean> => {
 export {
     createRole,
     findRoleById,
+    createMultipleRole,
     updateRoleById,
     deleteRoleById,
     findAllRolesById,
-    getAllRole
+    getAllRole,
+    getRoleByName
 };

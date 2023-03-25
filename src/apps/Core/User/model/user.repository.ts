@@ -6,6 +6,21 @@ import { errorHandler } from '@apps/Core/Base/model/Base.repository';
 
 import { User, UserModel } from './user.model';
 
+const createMultipleUsers = async (
+    users: Pick<User, 'email' | 'username' | 'password' | 'role'>[]
+) => {
+    const bulkOps = users.map((doc) => ({
+        updateOne: {
+            filter: { email: doc.email },
+            update: { $set: doc },
+            upsert: true
+        }
+    }));
+
+    const user = await UserModel.bulkWrite(bulkOps);
+    return user;
+};
+
 const createUser = async (
     email: string,
     username: string,
@@ -43,6 +58,7 @@ const findUserByEmail = async (email: string): Promise<User | null> => {
     if (user) return user;
     throw new NoDataError(`User with "${email}" not found`);
 };
+
 const findUserById = async (id: string): Promise<User | null> => {
     const user = await UserModel.aggregate([
         // Lookup the roles collection and populate the role field for each user document
@@ -130,5 +146,6 @@ export {
     findUserById,
     updateUser,
     deleteUser,
-    getAllUsers
+    getAllUsers,
+    createMultipleUsers
 };

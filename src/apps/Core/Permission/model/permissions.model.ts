@@ -7,7 +7,7 @@ export const COLLECTION_NAME = 'permissions';
 export interface Permissions extends BaseModel {
     resource: string;
     attributes: string[];
-    action: 'create' | 'read' | 'view' | 'update';
+    action: 'create' | 'read' | 'delete' | 'update';
 }
 
 const schema = new Schema<Permissions>(
