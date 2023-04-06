@@ -6,9 +6,9 @@ This is an open-source GitHub repository that provides a starter template for bu
 ## Getting Started
 To get started with this project, follow the steps below:
 
-1 Clone this repository to your local machine using ```git clone```
-2 Install the required dependencies using ``` npm install```
-2 Start the application using ```npm start```
+1. Clone this repository to your local machine using ```git clone```
+2. Install the required dependencies using ``` npm install```
+3. Start the application using ```npm start```
 
 ## Features
 This project starter comes with the following features:
