@@ -1,18 +1,26 @@
+import { pathsToModuleNameMapper } from 'ts-jest';
+
 const config = {
     preset: 'ts-jest',
     testEnvironment: 'node',
     roots: ['<rootDir>/src/tests'],
     setupFiles: ['<rootDir>/src/tests/setup.ts'],
-    moduleNameMapper: {
-        '@core/(.*)': ['<rootDir>/src/core/$1'],
-        '@helpers/(.*)': ['<rootDir>/src/helpers/$1'],
-        '@routes/(.*)': ['<rootDir>/src/routes/$1'],
-        '@test/(.*)': ['<rootDir>/src/tests/$1'],
-        '@app': ['<rootDir>/src/app.ts'],
-        '@routes': ['<rootDir>/src/routes/index.ts'],
-        '@server': ['<rootDir>/src/server.ts'],
-        '@config': ['<rootDir>/src/config.ts']
-    },
+    moduleNameMapper: pathsToModuleNameMapper(
+        {
+            '@core/*': ['./src/core/*'],
+            '@database': ['./src/database.ts'],
+            '@helpers/*': ['./src/helpers/*'],
+            '@apps': ['./src/apps/index.ts'],
+            '@apps/*': ['./src/apps/*'],
+            '@test/*': ['./src/tests/*'],
+            '@config': ['./src/config.ts'],
+            '@app': ['./src/app.ts'],
+            '@server': ['./src/server.ts']
+        },
+        {
+            prefix: '<rootDir>/'
+        }
+    ),
     collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!**/node_modules/**']
 };
 
