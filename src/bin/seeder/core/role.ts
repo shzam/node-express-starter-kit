@@ -9,6 +9,10 @@ const getRoleData = async () => {
         {
             roleName: 'admin',
             permissions: permissions
+        },
+        {
+            roleName: 'user',
+            permissions: []
         }
     ];
     return roles;

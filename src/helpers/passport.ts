@@ -15,6 +15,7 @@ import { findByToken } from '@apps/Core/Auth/model/auth.repository';
 import { SECRET_KEY } from '@config';
 import { Request } from 'express';
 import { JwtPayload } from 'jsonwebtoken';
+import { NoDataError } from '@core/ApiError';
 
 const JWToptions: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -44,12 +45,12 @@ passport.use(
         async (email, password, done) => {
             const user = await findUserByEmail(email);
             if (!user) {
-                return done(null, false, { message: 'Incorrect username' });
+                return done(new NoDataError('No user name found'), false);
             }
 
             const isCorrect = user!.validatePassword(password);
             if (!isCorrect) {
-                return done(null, false, { message: 'Incorrect password.' });
+                return done(null, false);
             }
 
             return done(null, user);

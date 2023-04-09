@@ -1,7 +1,10 @@
 import { Types } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { BadRequestError, NoDataError } from '@core/ApiError';
-import { findRoleById } from '@apps/Core/Role/model/role.repository';
+import {
+    findRoleById,
+    getRoleByName
+} from '@apps/Core/Role/model/role.repository';
 import { errorHandler } from '@apps/Core/Base/model/Base.repository';
 
 import { User, UserModel } from './user.model';
@@ -29,25 +32,28 @@ const createUser = async (
 ): Promise<User> => {
     try {
         const passwordHash = await bcrypt.hash(password, 10);
+        const roles = await getRoleByName(role || 'user');
+
         const user = await UserModel.create({
             username,
             password: passwordHash,
             email,
-            role: role ?? 'user'
+            roles
         });
 
         return user;
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
-        const keys = Object.keys(error.keyPattern);
+        const keys = error.keyPattern && Object.keys(error?.keyPattern);
         const errorMessage: string[] = [];
         switch (error.code) {
             case 11000:
-                keys.forEach((key) => {
+                keys.forEach((key: string) => {
                     const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
                     errorMessage.push(message);
                 });
                 throw new BadRequestError(`${errorMessage}`);
             default:
+                console.log(error);
                 throw new BadRequestError('Unknown error ');
         }
     }
@@ -55,13 +61,14 @@ const createUser = async (
 
 const findUserByEmail = async (email: string): Promise<User | null> => {
     const user = await UserModel.findOne({ email: email });
-    if (user) return user;
-    throw new NoDataError(`User with "${email}" not found`);
+    return user;
+    // if (user) return user;
+    // throw new NoDataError(`User with "${email}" not found`);
 };
 
 const findUserById = async (id: string): Promise<User | null> => {
     const user = await UserModel.aggregate([
-        // Lookup the roles collection and populate the role field for each user document
+        { $match: { _id: id } },
         {
             $lookup: {
                 from: 'roles',
@@ -70,17 +77,14 @@ const findUserById = async (id: string): Promise<User | null> => {
                 as: 'role'
             }
         },
-        // Unwind the role array to deconstruct the documents
         {
             $unwind: '$role'
         },
-        // Add a roleName field to each user document by projecting it from the role collection
         {
             $addFields: {
                 role: '$role.roleName'
             }
         }
-        // Project the final document to exclude the role field
     ]);
     if (user.length > 0) return user[0];
     throw new NoDataError(`User with "${id}" not found`);

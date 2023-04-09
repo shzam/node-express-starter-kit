@@ -7,7 +7,7 @@ import { SECRET_KEY } from '@config';
 import { BaseModel } from '../../Base/model/Base';
 import {
     Role,
-    DOCUMENT_NAME as Role_DOCUMENT_NAME
+    DOCUMENT_NAME as RoleDocumentName
 } from '../../Role/model/role.model';
 
 export const DOCUMENT_NAME = 'User';
@@ -42,13 +42,14 @@ const schema = new Schema<User>(
         },
         role: {
             type: Schema.Types.ObjectId,
-            ref: Role_DOCUMENT_NAME
+            ref: RoleDocumentName
         }
     },
     { timestamps: true }
 );
 schema.methods.validatePassword = async function (password: string) {
-    const hash = await bcrypt.compare(password, this.password);
+    const user = await UserModel.findById(this._id).select('+password');
+    const hash = await bcrypt.compare(password, user!.password);
     return hash;
 };
 

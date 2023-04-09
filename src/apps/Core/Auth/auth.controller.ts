@@ -56,7 +56,7 @@ export const Register = asyncHandler(async (req: Request, res: Response) => {
             role: user.role?.roleName
         }
     };
-    new SuccessResponse('Register Successfully', { response }).send(res);
+    new SuccessResponse('Register Successfully', response).send(res);
 });
 
 export const Logout = asyncHandler(async (req: Request, res: Response) => {

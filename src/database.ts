@@ -6,7 +6,10 @@ import { db } from '@config';
 //     db.host
 // }:${db.port}/${db.name}`;
 
-const dbURI = 'mongodb://127.0.0.1:27017/temp';
+const dbURI =
+    process.env.NODE_ENV == 'test'
+        ? 'mongodb://127.0.0.1:27017/tempTest'
+        : 'mongodb://127.0.0.1:27017/temp';
 
 const options = {
     autoIndex: true,
