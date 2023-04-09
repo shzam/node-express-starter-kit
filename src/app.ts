@@ -10,7 +10,8 @@ import {
     InternalError,
     ErrorType
 } from '@core/ApiError';
-import routes from '@routes';
+import apps from '@apps';
+import '@database';
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -25,7 +26,7 @@ process.on('uncaughtException', (e) => {
 });
 
 // Routes
-app.use('/', routes);
+app.use('/', apps);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => next(new NotFoundError()));
