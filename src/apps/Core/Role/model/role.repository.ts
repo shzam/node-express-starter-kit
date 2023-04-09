@@ -69,7 +69,7 @@ const findAllRolesById = async (ids: Types.ObjectId[]): Promise<Role[]> => {
 const getRoleByName = async (roleName: string) => {
     const role = await RoleModel.findOne({ roleName: roleName });
     if (role) return role;
-    throw new NoDataError('no permission found');
+    throw new NoDataError(`no role found with '${roleName}' name`);
 };
 
 const updateRoleById = async (
@@ -83,7 +83,7 @@ const updateRoleById = async (
         throw new NoDataError('Permission not found');
     }
     const role = await findRoleById(id);
-    console.log(role);
+
     if (role === null) {
         throw new NoDataError('Role not found');
     }
@@ -101,7 +101,7 @@ const updateRoleById = async (
     } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
         const keys = Object.keys(error.keyPattern);
         const errorMessage: string[] = [];
-        console.log(error);
+
         switch (error.code) {
             case 11000:
                 keys.forEach((key) => {

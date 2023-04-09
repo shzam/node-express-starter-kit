@@ -28,7 +28,7 @@ const schema = new Schema<Permissions>(
         ],
         action: {
             type: Schema.Types.String,
-            enum: ['create', 'read', 'view', 'update'],
+            enum: ['create', 'read', 'delete', 'update'],
             required: true
         }
     },

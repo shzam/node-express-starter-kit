@@ -6,25 +6,25 @@ import { Permissions, PermissionsModel } from './permissions.model';
 const createMultiplePermissions = async (
     permission: Pick<Permissions, 'action' | 'resource' | 'attributes'>[]
 ) => {
-    const isExists = await mongoose.connection.db
-        .listCollections({
-            name: { $in: permission.map((x) => x.resource) }
-        })
-        .toArray();
-    if (isExists.length !== permission.length) {
-        throw new BadRequestError(
-            `can not create permissions, with model that does not exist`
-        );
-    }
-    const bulkOps = permission.map((doc) => ({
-        updateOne: {
-            filter: { resource: doc.resource },
-            update: { $set: doc },
-            upsert: true
-        }
-    }));
+    // const isExists = await mongoose.connection.db
+    //     .listCollections({
+    //         name: { $in: permission.map((x) => x.resource) }
+    //     })
+    //     .toArray();
+    // if (isExists.length !== permission.length) {
+    //     throw new BadRequestError(
+    //         `can not create permissions, with model that does not exist`
+    //     );
+    // }
+    // const bulkOps = permission.map((doc) => ({
+    //     updateOne: {
+    //         filter: { resource: doc.resource },
+    //         update: { $set: doc },
+    //         upsert: true
+    //     }
+    // }));
 
-    const permissions = await PermissionsModel.bulkWrite(bulkOps);
+    const permissions = await PermissionsModel.insertMany(permission);
     return permissions;
 };
 
