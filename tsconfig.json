@@ -16,6 +16,7 @@
             "@config":["./src/config.ts"],
             "@app":["./src/app.ts"],
             "@server":["./src/server.ts"],
+            "@bin/*":["./src/bin/*"]
         },
         "resolveJsonModule": true ,
         "allowJs": true ,

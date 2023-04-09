@@ -4,7 +4,7 @@
   "description": "Nodejs-expressjs starter kit with boilerplate code",
   "main": "app.ts",
   "bin": {
-    "moon": "./bin/index.ts"
+    "moon": "./src/bin/index.js"
   },
   "scripts": {
     "start": "npm run build && npm run serve",
@@ -18,8 +18,10 @@
     "eslint": "eslint . --ext .js,.ts",
     "upgrade": "npm update --save-dev && npm update --save",
     "test": "jest --forceExit --detectOpenHandles --coverage --verbose",
+    "jest":"jest",
     "lint:fix": "eslint src --fix --ext .js,.jsx,.ts,.tsx .",
     "nibble": "eslint-nibble src --ext .js,.jsx,.ts,.tsx .",
+    "seed":"tsc ./src/bin/index.ts",
     "prepare": "husky install",
     "prepare-ts": "npx ts-patch install -s"
   },
