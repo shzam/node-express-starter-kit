@@ -1,38 +1,38 @@
 {
     "compilerOptions": {
-        "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+        "target": "es2016" ,
         "lib": [
             "es6"
         ] ,
-        "module": "commonjs" /* Specify what module code is generated. */,
-        "baseUrl": "." /* Specify the base directory to resolve non-relative module names. */,
+        "module": "commonjs" ,
+        "baseUrl": "." ,
         "paths": {
             "@core/*": ["./src/core/*"],
+            "@database":["./src/database.ts"],
             "@helpers/*":["./src/helpers/*"],
-            "@routes":["./src/routes/index.ts"],
-            "@routes/*":["./src/routes/*"],
+            "@apps":["./src/apps/index.ts"],
+            "@apps/*":["./src/apps/*"],
             "@test/*":["./src/tests/*"],
             "@config":["./src/config.ts"],
             "@app":["./src/app.ts"],
             "@server":["./src/server.ts"],
+            "@bin/*":["./src/bin/*"]
         },
-        "resolveJsonModule": true /* Enable importing .json files. */,
-        "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
-        "outDir": "build" /* Specify an output folder for all emitted files. */,
-        "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
-        "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
-        "strict": true /* Enable all strict type-checking options. */,
-        "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
-        "strictNullChecks": true /* When type checking, take into account 'null' and 'undefined'. */,
-        "noImplicitThis": true /* Enable error reporting when 'this' is given the type 'any'. */, 
-        "skipLibCheck": true /* Skip type checking all .d.ts files. */
+        "resolveJsonModule": true ,
+        "allowJs": true ,
+        "outDir": "build",
+        "esModuleInterop": true ,
+        "forceConsistentCasingInFileNames": true ,
+        "strict": true ,
+        "noImplicitAny": true,
+        "strictNullChecks": true ,
+        "noImplicitThis": true , 
+        "skipLibCheck": true 
     },
     "plugins":[
-        /* Transform paths in output .js files */
         {
            "transform":"typescript-transform-paths"
         },
-        /* Transform paths in output .d.ts files */
         {
            "transform":"typescript-transform-paths",
            "afterDeclarations": true

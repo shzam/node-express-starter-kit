@@ -20,6 +20,7 @@
     ],
     "rules": {
         "import/first": 2,
+        "camelcase":"error",
         "import/newline-after-import": 2,
         "import/order": [
             "error",

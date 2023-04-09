@@ -1,9 +1,10 @@
 import express from 'express';
 
 //
-import { TestRoute } from './Demo';
+import Core from './Core';
 
 const router = express.Router();
 
-router.use('/test', TestRoute);
+router.use('/core', Core);
+
 export default router;
