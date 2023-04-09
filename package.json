@@ -14,7 +14,7 @@
     "watch-ts": "tsc -w  src/server.ts",
     "eslint": "eslint . --ext .js,.ts",
     "upgrade": "npm update --save-dev && npm update --save",
-    "test": "jest --forceExit --detectOpenHandles --coverage --verbose",
+    "test": "jest --detectOpenHandles  --forceExit  --coverage --verbose",
     "lint:fix": "eslint src --fix --ext .js,.jsx,.ts,.tsx .",
     "nibble": "eslint-nibble src --ext .js,.jsx,.ts,.tsx .",
     "prepare": "husky install",
