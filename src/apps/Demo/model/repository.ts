@@ -2,29 +2,17 @@ import { Types } from 'mongoose';
 import { NoDataError, BadRequestError } from '@core/ApiError';
 
 import { Demo, DemoModel } from './model';
+import withErrorHandling from '@helpers/withErrorHandling';
 
 const createDemo = async ({ name }: Pick<Demo, 'name'>): Promise<Demo> => {
-    try {
+    return  withErrorHandling( async ()=>{
         const demo = await DemoModel.create({ name });
         return demo;
-    } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
-        const keys = Object.keys(error.keyPattern);
-        const errorMessage: string[] = [];
-        switch (error.code) {
-            case 11000:
-                keys.forEach((key) => {
-                    const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
-                    errorMessage.push(message);
-                });
-                throw new BadRequestError(`${errorMessage}`);
-            default:
-                throw new BadRequestError('Unknown error ');
-        }
-    }
+    })
 };
 
 const updateDemo = async (demo: Pick<Demo, '_id' | 'name'>): Promise<Demo> => {
-    try {
+    return  withErrorHandling( async ()=>{
         const newDemo = await DemoModel.findByIdAndUpdate(
             demo._id,
             {
@@ -39,20 +27,7 @@ const updateDemo = async (demo: Pick<Demo, '_id' | 'name'>): Promise<Demo> => {
             throw new NoDataError(`No Demo with id ${demo._id} found`);
         }
         return newDemo;
-    } catch (error: { code: number; keyPattern: any; keyValue: any } | any) {
-        const keys = Object.keys(error.keyPattern);
-        const errorMessage: string[] = [];
-        switch (error.code) {
-            case 11000:
-                keys.forEach((key) => {
-                    const message = ` "${key}" with "${error.keyValue[key]}" already exist`;
-                    errorMessage.push(message);
-                });
-                throw new BadRequestError(`${errorMessage}`);
-            default:
-                throw new BadRequestError('Unknown error ');
-        }
-    }
+    })
 };
 
 const deleteDemo = async (id: Types.ObjectId) => {
