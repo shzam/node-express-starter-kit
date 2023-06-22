@@ -5,9 +5,9 @@
   "main": "app.ts",
   "scripts": {
     "dev": "nodemon -r tsconfig-paths/register src/server.ts",
-    "serve": "node ./build/src/server.js",
+    "serve": "node ./build/server.js",
     "build": "rimraf ./build && tsc --incremental && tsc-alias",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"tsc -w\" \"nodemon -r tsconfig-paths/register ./build/src/server.js\"",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"tsc -w\" \"nodemon -r tsconfig-paths/register ./build/server.js\"",
     "eslint": "eslint . --ext .js,.ts",
     "upgrade": "npm update --save-dev && npm update --save",
     "test": "jest --detectOpenHandles --forceExit --coverage --verbose",
