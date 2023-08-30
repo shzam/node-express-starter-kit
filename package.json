@@ -52,7 +52,7 @@
     "http-status-codes": "^2.2.0",
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^6.11.3",
+    "mongoose": "^6.12.0",
     "morgan": "^1.10.0",
     "supertest": "^6.3.3",
     "typescript": "^4.9.4",
